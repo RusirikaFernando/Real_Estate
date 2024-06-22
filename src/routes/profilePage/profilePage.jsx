@@ -7,15 +7,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
+  const { updateUser, currentUser } = useContext(AuthContext);
 
-const {updateUser, currentUser} = useContext(AuthContext);
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");
-      updateUser(null)
-      navigate("/")
+      updateUser(null);
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -32,10 +31,7 @@ const {updateUser, currentUser} = useContext(AuthContext);
           <div className="info">
             <span>
               Avatar:
-              <img
-                src={currentUser.avatar || "/noavatar.jpg"}
-                alt=""
-              />
+              <img src={currentUser.avatar || "/noavatar.jpg"} alt="" />
             </span>
             <span>
               Username: <b>{currentUser.username}</b>
