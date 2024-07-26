@@ -5,12 +5,14 @@ import apiRequest from "../../lib/apiRequest";
 import "./profilePage.scss";
 import { Suspense, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-
+ 
 function ProfilePage() {
   const data = useLoaderData();
+  console.log(data)
   const { updateUser, currentUser } = useContext(AuthContext);
-
+ 
   const navigate = useNavigate();
+ 
   const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");
@@ -20,7 +22,6 @@ function ProfilePage() {
       console.log(err);
     }
   };
-
   return (
     <div className="profilePage">
       <div className="details">
@@ -28,14 +29,13 @@ function ProfilePage() {
           <div className="title">
             <h1>User Information</h1>
             <Link to="/profile/update">
-           
-            <button>Update Profile</button>
+              <button>Update Profile</button>
             </Link>
           </div>
           <div className="info">
             <span>
               Avatar:
-              <img src={currentUser.avatar || "/noavatar.jpg"} alt="" />
+              <img src={currentUser.avatar || "/favicon.png"} alt="image" />
             </span>
             <span>
               Username: <b>{currentUser.username}</b>
@@ -43,39 +43,35 @@ function ProfilePage() {
             <span>
               E-mail: <b>{currentUser.email}</b>
             </span>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}> logout</button>
           </div>
           <div className="title">
             <h1>My List</h1>
             <Link to="/add">
-            <button>Create New Post</button>
+              <button>Create New Post</button>
             </Link>
           </div>
-
           <Suspense fallback={<p>loading...</p>}>
             <Await
               resolve={data.postResponse}
               errorElement={<p>Error loading posts</p>}
             >
-                {/* {(postResponse) => console.log(postResponse))} */}
-              {(postResponse) => <List posts={postResponse.data.userPosts}/>}
+              {(postResponse) => <List posts={postResponse.data.userPosts} />}
             </Await>
           </Suspense>
-
-          
+ 
           <div className="title">
             <h1>Saved List</h1>
           </div>
+ 
           <Suspense fallback={<p>loading...</p>}>
             <Await
               resolve={data.postResponse}
               errorElement={<p>Error loading posts</p>}
             >
-                {/* {(postResponse) => console.log(postResponse))} */}
-              {(postResponse) => <List posts={postResponse.data.savedPosts}/>}
+              {(postResponse) => <List posts={postResponse.data.savedPosts} />}
             </Await>
           </Suspense>
-      
         </div>
       </div>
       <div className="chatContainer">
@@ -93,5 +89,6 @@ function ProfilePage() {
     </div>
   );
 }
-
+ 
 export default ProfilePage;
+ 
