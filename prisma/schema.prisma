@@ -77,7 +77,7 @@ model User {
   password  String
   avatar    String?
   createAt  DateTime    @default(now())
-  posts     Post[]
+  posts     Post[]   // one to many relationship
   SavedPost SavedPost[]
   chats     Chat[]      @relation(fields: [chatIDs], references: [id])
   chatIDs   String[]    @db.ObjectId
